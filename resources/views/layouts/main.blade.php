@@ -19,11 +19,11 @@
         <link rel="stylesheet" href="/css/styles.css">
         <script src="/js/scripts.js"></script>
     </head>
-    <body class="antialiased">
+    <body>
         <header>
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="collapse navbar-collapse" id="navbar">
-                    <a href="/" class="navar-brand">
+                    <a href="/" class="navbar-brand">
                         <img src="/img/hdcevents_logo.svg" alt = "HDC Events">
                     </a>
                     <ul class="navbar-nav">
@@ -44,13 +44,21 @@
             </nav>
         </header>
         {{-- Aqui vai ficar conteúdo da página dinâmicamente --}}
-        @yield('content')
-
-        
-        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+        <main>
+            <div class="container-fluid">
+                <div class="row">
+                    {{-- Flash menssages --}}
+                    @if (session('msg'))
+                        <p class="msg"> {{ session('msg') }}</p>                        
+                    @endif
+                    @yield('content')
+                </div>
+            </div>
+        </main>
         <footer>
             <p>Eventos &copy; 2021</p>
         </footer>
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     </body>
 </html>
