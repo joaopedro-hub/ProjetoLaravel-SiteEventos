@@ -39,6 +39,9 @@
                             <a href="/dashboard" class="nav-link">Meus Eventos</a>
                         </li>
                         <li class="nav-item">
+                            <p class="nav-link">{{Auth()->user()->name}}</p>
+                        </li>
+                        <li class="nav-item">
                             <form action="/logout" method="POST">
                                 @csrf
                                 <a href="/logout" class="nav-link" onclick="event.preventDefault();
@@ -47,7 +50,7 @@
                         </li>
                         @endauth
 
-                        @guest{{--Se esstiver autenticado, esses itens irão desaparecer --}}
+                        @guest{{--Se não esstiver autenticado, esses itens irão desaparecer --}}
                         <li class="nav-item">
                             <a href="/login" class="nav-link">Entrar</a>
                         </li>
