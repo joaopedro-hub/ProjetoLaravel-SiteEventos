@@ -73,6 +73,7 @@ class EventController extends Controller
         return view('events.show', ['event' => $event, 'eventOwner' => $eventOwner]);
     }
 
+    //Pega todos os eventos do usuário logado
     public function dashboard()
     {
         $user = auth()->user();
@@ -82,10 +83,52 @@ class EventController extends Controller
         return view('events.dashboard', ['events' => $events]);
     }
 
+    //Exclui um evento d usuário
     public function destroy($id)
     {
         Event::findOrfail($id)->delete();
 
-        return redirect('dashboard')->with('msg', 'Evento excluido com sucesso');
+        return redirect('dashboard')->with('msg', 'Evento excluido com sucesso!');
+    }
+
+    public function edit($id)
+    {
+        $event = Event::findOrfail($id);
+
+        return view('events.edit', ['event' => $event]);
+    }
+
+    public function update(Request $request)
+    {
+        $data = $request->all();
+
+        //Image Upload
+        //getClientOriginalName() -> pegar nome do arquivo
+        //strtotime("now") -> cria uma string com base no tempo
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $requestImage = $request->image;
+            $extension = $requestImage->extension();
+            $imageName = md5($requestImage->getClientOriginalName() . strtotime("now")) . "." . $extension;
+
+            //Adicionar a imagem a pasta
+            $requestImage->move(public_path('img/events'), $imageName);
+            $data['image'] = $imageName; //salvar no banco
+        }
+
+        //metodo update, baseado em todos os dados que vieram da requsição
+        Event::findOrfail($request->id)->update($data);
+
+        return redirect('dashboard')->with('msg', 'Evento editado com sucesso!');
+    }
+
+    public function joinEvent($id)
+    {
+        $user = auth()->user();
+
+        $user->eventsAsParticipant()->attach($id);
+
+        $event = Event::findOrFail($id);
+
+        return redirect('/dashboard')->with('msg', 'Sua presença está confirmada no evento ' . $event->title);
     }
 }
