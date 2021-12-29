@@ -42,6 +42,14 @@
     padding: 10px;
   }
 
+  #info-container .already-joined-msg {
+    margin: 15px 0;
+    color: #004085;
+    background-color: #CCE5FF;
+    border: 1px solid #BBDAFF;
+    padding: 10px;
+    width: 275px;
+  }
 
   /* navbar */
   #navbar img {
